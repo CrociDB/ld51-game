@@ -7,13 +7,16 @@
 
 #include "wasm4.h"
 
+#define PLAYER_SPEED            1
+
 typedef struct 
 {
-    uint8_t x;
-    uint8_t y;
+    uint16_t x;
+    uint16_t y;
 } player_t;
 
 player_t* player_create();
+void player_move(player_t* player);
 void player_render(player_t* player);
 
 #endif
