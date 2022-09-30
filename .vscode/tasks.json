@@ -6,13 +6,8 @@
         {
             "label": "build",
             "type": "shell",
-            "command": "zig build -Drelease-small=true; w4 run zig-out/lib/cart.wasm -n",
+            "command": "make && w4 run build/cart.wasm -n",
             "problemMatcher": []
-        },
-        {
-            "label": "build&run",
-            "type": "shell",
-            "command": "zig build -Drelease-small=true; w4 run zig-out/lib/cart.wasm -n"
         }
     ]
 }
