@@ -1,19 +1,19 @@
 # Game for Ludum Dare 51
 
-A game for the Ludum Dare 51 compo written in Zig for the WASM-4 virtual console platform.
+A game for the Ludum Dare 51 compo written in C for the WASM-4 virtual console platform.
 
 ## Building
 
 Build the cart by running:
 
 ```shell
-zig build -Drelease-small=true
+make
 ```
 
 Then run it with:
 
 ```shell
-w4 run zig-out/lib/cart.wasm
+w4 run build/cart.wasm
 ```
 
 ## Links
