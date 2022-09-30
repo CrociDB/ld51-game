@@ -1,25 +1,36 @@
 #include "wasm4.h"
 
-const uint8_t smiley[] = {
-    0b11000011,
-    0b10000001,
-    0b00100100,
-    0b00100100,
-    0b00000000,
-    0b00100100,
-    0b10011001,
-    0b11000011,
-};
+#include "player.h"
 
-void update () {
-    *DRAW_COLORS = 2;
-    text("Hello from C!", 10, 10);
+void update_logic();
+void update_render();
 
+player_t* player;
+
+void start()
+{
+    player = player_create();
+}
+
+void update () 
+{
+    update_logic();
+    update_render();    
+}
+
+void update_logic()
+{
     uint8_t gamepad = *GAMEPAD1;
     if (gamepad & BUTTON_1) {
         *DRAW_COLORS = 4;
     }
+}
 
-    blit(smiley, 76, 76, 8, 8, BLIT_1BPP);
+void update_render()
+{
+    *DRAW_COLORS = 2;
+    text("Hello from C!", 10, 10);
     text("Press X to blink", 16, 90);
+
+    player_render(player);
 }
