@@ -92,6 +92,8 @@ void player_move(player_t* player)
 
 void player_render(player_t* player)
 {
+    *DRAW_COLORS = 4;
+
     int dx = (int)(sinf(player->angle) * 8.0f + player->x);
     int dy = (int)(cosf(player->angle) * 8.0f + player->y);
 

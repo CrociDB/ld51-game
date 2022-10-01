@@ -1,4 +1,5 @@
 #include "bullet.h"
+#include "defs.h"
 #include "wasm4.h"
 
 #include <malloc.h>
@@ -39,6 +40,7 @@ void bullet_update(bullet_t* bullets)
 
 void bullet_render(bullet_t* bullets)
 {
+    *DRAW_COLORS = 2;
     for (int i = 0; i < BULLETS_MAX; i++)
     {
         if (!bullets[i].active) continue;
