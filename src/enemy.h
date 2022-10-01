@@ -4,6 +4,7 @@
 #include "defs.h"
 
 #define ENEMY_SIZE                  16
+#define ENEMY_SPEED                 20
 
 typedef struct game_t game_t;
 
@@ -13,6 +14,8 @@ typedef struct
     float y;
 
     int frame;
+
+    float shield_size;
 
     game_t* game;
 } enemy_t;

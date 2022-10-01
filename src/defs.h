@@ -3,7 +3,9 @@
 
 #include <stdio.h>
 #include <inttypes.h>
+#include <math.h>
 
+#define TWO_PI          6.2831852f
 #define PI              3.1415926f
 #define PI_2            1.5707963f
 #define PI_4            0.78539815f
