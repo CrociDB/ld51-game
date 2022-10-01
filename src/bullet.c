@@ -50,7 +50,7 @@ void bullet_render(bullet_t* bullets)
     }
 }
 
-void bullet_spawn(bullet_t* bullets, int x, int y, float angle)
+void bullet_spawn(bullet_t* bullets, float x, float y, float angle)
 {
     for (int i = 0; i < BULLETS_MAX; i++)
     {

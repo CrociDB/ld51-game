@@ -13,8 +13,8 @@
 
 typedef struct 
 {
-    int x;
-    int y;
+    float x;
+    float y;
 
     float angle;
     float speed;

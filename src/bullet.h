@@ -25,6 +25,6 @@ void bullet_destroy(bullet_t* bullets);
 void bullet_update(bullet_t* bullets);
 void bullet_render(bullet_t* bullets);
 
-void bullet_spawn(bullet_t* bullets, int x, int y, float angle);
+void bullet_spawn(bullet_t* bullets, float x, float y, float angle);
 
 #endif

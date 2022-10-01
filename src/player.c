@@ -29,8 +29,8 @@ void player_move(player_t* player)
     {
         if (!player->input)
         {
-            int dx = (int)(sinf(player->angle) * 8.0f) + player->x;
-            int dy = (int)(cosf(player->angle) * 8.0f) + player->y;
+            float dx = sinf(player->angle) * 8.0f + player->x;
+            float dy = cosf(player->angle) * 8.0f + player->y;
             bullet_spawn(player->bullets, dx, dy, player->angle);
             player->input = TRUE;
         }
@@ -54,8 +54,8 @@ void player_move(player_t* player)
     
     float max_speed = clamp(player->speed, -3.0f, 3.0f);
 
-    int dx = (int)(sinf(player->angle) * max_speed);
-    int dy = (int)(cosf(player->angle) * max_speed);
+    float dx = sinf(player->angle) * max_speed;
+    float dy = cosf(player->angle) * max_speed;
 
     player->x += dx;
     player->y += dy;
@@ -92,13 +92,13 @@ void player_move(player_t* player)
 
 void player_render(player_t* player)
 {
-    int dx = (int)(sinf(player->angle) * 8.0f) + player->x;
-    int dy = (int)(cosf(player->angle) * 8.0f) + player->y;
+    int dx = (int)(sinf(player->angle) * 8.0f + player->x);
+    int dy = (int)(cosf(player->angle) * 8.0f + player->y);
 
-    int lx = (int)(sinf(player->angle + PI_2) * 4.0f) + player->x;
-    int ly = (int)(cosf(player->angle + PI_2) * 4.0f) + player->y;
-    int kx = (int)(sinf(player->angle - PI_2) * 4.0f) + player->x;
-    int ky = (int)(cosf(player->angle - PI_2) * 4.0f) + player->y;
+    int lx = (int)(sinf(player->angle + PI_2) * 4.0f + player->x);
+    int ly = (int)(cosf(player->angle + PI_2) * 4.0f + player->y);
+    int kx = (int)(sinf(player->angle - PI_2) * 4.0f + player->x);
+    int ky = (int)(cosf(player->angle - PI_2) * 4.0f + player->y);
 
     line(dx, dy, lx, ly);
     line(dx, dy, kx, ky);
