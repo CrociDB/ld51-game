@@ -48,7 +48,7 @@ void player_move(player_t* player)
     if (gamepad & BUTTON_RIGHT)
         player->angle -= PLAYER_SPEED_ROTATION;
 
-    if (gamepad & BUTTON_UP)
+    if (gamepad & BUTTON_UP || gamepad & BUTTON_2)
         player->speed += PLAYER_SPEED;
     if (gamepad & BUTTON_DOWN)
         player->speed -= PLAYER_SPEED;
