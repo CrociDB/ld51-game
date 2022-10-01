@@ -28,7 +28,7 @@ void update_render()
 {
     *DRAW_COLORS = 2;
     
-    text("Press X to blink", 16, 90);
+    //text("Text sample", 10, 10);
 
     player_render(player);
 }
