@@ -2,7 +2,6 @@
 
 #include "game.h"
 
-// #include <time.h>
 #include <stdlib.h>
 
 void update_logic();
@@ -12,7 +11,6 @@ game_t game;
 
 void start()
 {
-    // srand((unsigned)time(NULL));
     PALETTE[0] = 0xfff6d3;
     PALETTE[1] = 0xf9a875;
     PALETTE[2] = 0xeb6b6f;
@@ -20,6 +18,7 @@ void start()
 
     game.psystems = particle_system_create();
     game.player = player_create(&game);
+    game.screen = screen_create();
 }
 
 void update() 
@@ -32,6 +31,8 @@ void update_logic()
 {
     player_move(game.player);
     particle_update(game.psystems);
+
+    screen_update(game.screen);
 }
 
 void update_render()
@@ -40,4 +41,6 @@ void update_render()
 
     player_render(game.player);
     particle_render(game.psystems);
+
+    screen_render(game.screen);
 }
