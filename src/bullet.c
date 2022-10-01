@@ -48,8 +48,8 @@ void bullet_render(bullet_t* bullets)
     {
         if (!bullets[i].active) continue;
 
-        int dx = (int)(sinf(bullets[i].angle) * 4.0f + bullets[i].x);
-        int dy = (int)(cosf(bullets[i].angle) * 4.0f + bullets[i].y);
+        int dx = (int)(sinf(bullets[i].angle + PI) * 4.0f + bullets[i].x);
+        int dy = (int)(cosf(bullets[i].angle + PI) * 4.0f + bullets[i].y);
 
         line((int)bullets[i].x, (int)bullets[i].y, dx, dy);
     }

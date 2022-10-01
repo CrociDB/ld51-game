@@ -1,6 +1,7 @@
 #include "enemy.h"
 #include "art.h"
 #include "game.h"
+#include "bullet.h"
 #include "utils.h"
 
 #include "wasm4.h"
@@ -31,6 +32,9 @@ void enemy_update(enemy_t* enemy)
         enemy->frame = (enemy->frame + 1) % 2;
 
     enemy->shield_size = 10.0f + (sinf((float)(enemy->game->screen->game_frame) * .01f) * .5f + .5f) * 55.f; 
+
+    // check collision
+    _enemy_collision_bullets(enemy);
 }
 
 void enemy_render(enemy_t* enemy)
@@ -61,5 +65,23 @@ void enemy_render(enemy_t* enemy)
         int ny = (int)(cy + cosf(section_arc * (float)ni) * enemy->shield_size);
 
         line(x, y, nx, ny);
+    }
+}
+
+void _enemy_collision_bullets(enemy_t* enemy)
+{
+    bullet_t* bullets = enemy->game->player->bullets;
+
+    for (int i = 0; i < BULLETS_MAX; i++)
+    {
+        if (!bullets[i].active) continue;
+
+        // hit shield
+        if (collision_point_sphere(
+            (int)bullets[i].x, (int)bullets[i].y, 
+            (int)enemy->x, (int)enemy->y, (int)enemy->shield_size))
+        {
+            _bullet_destroy(&bullets[i]);
+        }
     }
 }
