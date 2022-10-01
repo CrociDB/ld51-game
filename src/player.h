@@ -8,8 +8,8 @@
 #include "wasm4.h"
 #include "bullet.h"
 
-#define PLAYER_SPEED_ROTATION               .1f
-#define PLAYER_SPEED                        .2f
+#define PLAYER_SPEED_ROTATION               .05f
+#define PLAYER_SPEED                        .1f
 
 typedef struct game_t game_t;
 
