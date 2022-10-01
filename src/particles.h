@@ -5,13 +5,13 @@
 
 #include <inttypes.h>
 
-#define PARTICLE_SYSTEM_MAX             10
-#define PARTICLE_MAX                    20
+#define PARTICLE_SYSTEM_MAX             8
+#define PARTICLE_MAX                    30
 
-#define PARTICLE_MIN_SPEED              0.5f
-#define PARTICLE_MAX_SPEED              2.0f
-#define PARTICLE_MIN_LIFE               50
-#define PARTICLE_MAX_LIFE               100
+#define PARTICLE_MIN_SPEED              0.2f
+#define PARTICLE_MAX_SPEED              2.2f
+#define PARTICLE_MIN_LIFE               10
+#define PARTICLE_MAX_LIFE               30
 
 typedef struct 
 {

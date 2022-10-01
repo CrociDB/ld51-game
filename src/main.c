@@ -1,7 +1,6 @@
 #include "wasm4.h"
 
-#include "player.h"
-#include "particles.h"
+#include "game.h"
 
 // #include <time.h>
 #include <stdlib.h>
@@ -9,8 +8,7 @@
 void update_logic();
 void update_render();
 
-player_t* player;
-particle_system_t* psystems;
+game_t game;
 
 void start()
 {
@@ -20,8 +18,8 @@ void start()
     PALETTE[2] = 0xeb6b6f;
     PALETTE[3] = 0x7c3f58;
 
-    psystems = particle_system_create();
-    player = player_create();
+    game.psystems = particle_system_create();
+    game.player = player_create(&game);
 }
 
 void update() 
@@ -32,12 +30,14 @@ void update()
 
 void update_logic()
 {
-    player_move(player);
+    player_move(game.player);
+    particle_update(game.psystems);
 }
 
 void update_render()
 {
     //text("Text sample", 10, 10);
 
-    player_render(player);
+    player_render(game.player);
+    particle_render(game.psystems);
 }

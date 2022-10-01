@@ -11,6 +11,8 @@
 #define PLAYER_SPEED_ROTATION               .1f
 #define PLAYER_SPEED                        .2f
 
+typedef struct game_t game_t;
+
 typedef struct 
 {
     float x;
@@ -22,9 +24,12 @@ typedef struct
     bool input;
 
     bullet_t* bullets;
+
+    // only references
+    game_t* game;
 } player_t;
 
-player_t* player_create();
+player_t* player_create(game_t* game);
 void player_destroy(player_t* player);
 
 void player_move(player_t* player);

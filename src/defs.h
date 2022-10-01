@@ -13,4 +13,5 @@ typedef uint8_t         bool;
 #define FALSE           0
 
 #define frandom()        ((float)rand() / (float)(RAND_MAX))
+
 #endif

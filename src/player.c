@@ -1,23 +1,26 @@
 #include "player.h"
-#include "defs.h" 
+#include "defs.h"
+#include "bullet.h"
 
 #include <math.h>
 
 #define clamp(X, XMIN, XMAX)           (X > XMAX ? XMAX : (X < XMIN ? XMIN : X))
 
-player_t* player_create()
+player_t* player_create(game_t* game)
 {
     player_t* p = (player_t*)malloc(sizeof(player_t));
     p->x = p->y = 30;
 
-    p->bullets = bullet_create_system();
+    p->bullets = bullet_create_system(game);
+
+    p->game = game;
 
     return p;
 }
 
 void player_destroy(player_t* player)
 {
-    bullet_destroy(player->bullets);
+    bullet_destroy_system(player->bullets);
     free(player);
 }
 

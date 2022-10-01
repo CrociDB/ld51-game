@@ -9,7 +9,7 @@
 particle_system_t* particle_system_create()
 {
     particle_system_t* psystems = (particle_system_t*)malloc(sizeof(particle_system_t) * PARTICLE_SYSTEM_MAX);
-    for (int i = 0; i <= PARTICLE_SYSTEM_MAX; i++)
+    for (int i = 0; i < PARTICLE_SYSTEM_MAX; i++)
     {
         psystems[i].particles = _particles_create();
         psystems[i].active = FALSE;
@@ -20,7 +20,7 @@ particle_system_t* particle_system_create()
 
 void particle_system_destroy(particle_system_t* psystems)
 {
-    for (int i = 0; i <= PARTICLE_SYSTEM_MAX; i++)
+    for (int i = 0; i < PARTICLE_SYSTEM_MAX; i++)
     {
         _particles_destroy(psystems[i].particles);
     }
@@ -30,7 +30,7 @@ void particle_system_destroy(particle_system_t* psystems)
 
 void particle_spawn(particle_system_t* psystems, float x, float y)
 {
-    for (int i = 0; i <= PARTICLE_SYSTEM_MAX; i++)
+    for (int i = 0; i < PARTICLE_SYSTEM_MAX; i++)
     {
         if (psystems[i].active) continue;
 
@@ -43,7 +43,7 @@ void particle_spawn(particle_system_t* psystems, float x, float y)
 
 void particle_update(particle_system_t* psystems)
 {
-    for (int i = 0; i <= PARTICLE_SYSTEM_MAX; i++)
+    for (int i = 0; i < PARTICLE_SYSTEM_MAX; i++)
     {
         if (!psystems[i].active) continue;
 
@@ -54,7 +54,7 @@ void particle_update(particle_system_t* psystems)
 
 void particle_render(particle_system_t* psystems)
 {
-    for (int i = 0; i <= PARTICLE_SYSTEM_MAX; i++)
+    for (int i = 0; i < PARTICLE_SYSTEM_MAX; i++)
     {
         if (!psystems[i].active) continue;
 
@@ -67,7 +67,7 @@ particle_t* _particles_create()
 {
     particle_t* particles = (particle_t*)malloc(sizeof(particle_t) * PARTICLE_MAX);
 
-    for (int i = 0; i <= PARTICLE_MAX; i++)
+    for (int i = 0; i < PARTICLE_MAX; i++)
     {
         particles[i].active = FALSE;
     }
@@ -83,14 +83,14 @@ void _particles_destroy(particle_t* p)
 
 void _particles_spawn(particle_t* particles, float x, float y)
 {
-    for (int i = 0; i <= PARTICLE_MAX; i++)
+    for (int i = 0; i < PARTICLE_MAX; i++)
     {
         particles[i].x = x;
         particles[i].y = y;
         particles[i].angle = frandom() * (PI * 2.0f);
         particles[i].speed = frandom() * PARTICLE_MAX_SPEED + PARTICLE_MIN_SPEED;
 
-        particles[i].max_life = (int)(frandom() * PARTICLE_MAX_LIFE + PARTICLE_MIN_LIFE);
+        particles[i].max_life = (int)(frandom() * PARTICLE_MAX_LIFE) + PARTICLE_MIN_LIFE;
         particles[i].life = 0;
 
         particles[i].active = TRUE;
@@ -100,7 +100,7 @@ void _particles_spawn(particle_t* particles, float x, float y)
 bool _particles_update(particle_t* particles)
 {
     int total = 0;
-    for (int i = 0; i <= PARTICLE_MAX; i++)
+    for (int i = 0; i < PARTICLE_MAX; i++)
     {
         if (!particles[i].active) continue;
 
@@ -110,7 +110,7 @@ bool _particles_update(particle_t* particles)
         particles[i].x += dx;
         particles[i].y += dy;
 
-        if (particles[i].life++ > particles[i].max_life)
+        if (particles[i].life++ > particles[i].max_life || particles[i].life < 0)
             particles[i].active = FALSE;
 
         total++;
@@ -123,7 +123,7 @@ void _particles_render(particle_t* particles)
 {
     *DRAW_COLORS = 3;
 
-    for (int i = 0; i <= PARTICLE_MAX; i++)
+    for (int i = 0; i < PARTICLE_MAX; i++)
     {
         if (!particles[i].active) continue;
 

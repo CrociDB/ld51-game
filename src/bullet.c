@@ -1,22 +1,25 @@
+#include "game.h"
 #include "bullet.h"
 #include "defs.h"
+#include "particles.h"
 #include "wasm4.h"
 
 #include <malloc.h>
 #include <math.h>
 
-bullet_t* bullet_create_system()
+bullet_t* bullet_create_system(game_t* game)
 {
     bullet_t* b = (bullet_t*)malloc(sizeof(bullet_t) * BULLETS_MAX);
     for (int i = 0; i < BULLETS_MAX; i++)
     {
         b[i].active = FALSE;
+        b[i].game = game;
     }
 
     return b;
 }
 
-void bullet_destroy(bullet_t* bullets)
+void bullet_destroy_system(bullet_t* bullets)
 {
     free(bullets);
 }
@@ -33,8 +36,8 @@ void bullet_update(bullet_t* bullets)
         bullets[i].x += dx;
         bullets[i].y += dy;
 
-        if (bullets[i].x > SCREEN_SIZE || bullets[i].x < 0) bullets[i].active = FALSE;
-        if (bullets[i].y > SCREEN_SIZE || bullets[i].y < 0) bullets[i].active = FALSE;
+        if (bullets[i].x > SCREEN_SIZE || bullets[i].x < 0) _bullet_destroy(&bullets[i]);
+        if (bullets[i].y > SCREEN_SIZE || bullets[i].y < 0) _bullet_destroy(&bullets[i]);
     }
 }
 
@@ -65,4 +68,10 @@ void bullet_spawn(bullet_t* bullets, float x, float y, float angle)
 
         break;
     }
+}
+
+void _bullet_destroy(bullet_t* bullets)
+{
+    bullets->active = FALSE;
+    particle_spawn(bullets->game->psystems, bullets->x, bullets->y);
 }
