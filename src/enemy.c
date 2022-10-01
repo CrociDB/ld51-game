@@ -84,5 +84,14 @@ void _enemy_collision_bullets(enemy_t* enemy)
         {
             _bullet_destroy(&bullets[i]);
         }
+
+        // hit core
+        if (collision_point_circle(bullets[i].x, bullets[i].y, 
+                enemy->x, enemy->y, (float)ENEMY_SIZE / 1.414f))
+        {
+            _bullet_destroy(&bullets[i]);
+        }
     }
+
+
 }
