@@ -19,6 +19,7 @@ void start()
     game.psystems = particle_system_create();
     game.player = player_create(&game);
     game.screen = screen_create();
+    game.enemy = enemy_create();
 }
 
 void update() 
@@ -30,6 +31,7 @@ void update()
 void update_logic()
 {
     player_move(game.player);
+    enemy_update(game.enemy);
     particle_update(game.psystems);
 
     screen_update(game.screen);
@@ -37,9 +39,8 @@ void update_logic()
 
 void update_render()
 {
-    //text("Text sample", 10, 10);
-
     player_render(game.player);
+    enemy_render(game.enemy);
     particle_render(game.psystems);
 
     screen_render(game.screen);
