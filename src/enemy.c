@@ -77,7 +77,7 @@ void _enemy_collision_bullets(enemy_t* enemy)
         if (!bullets[i].active) continue;
 
         // hit shield
-        if (collision_point_sphere(
+        if (collision_point_circle(
             (int)bullets[i].x, (int)bullets[i].y, 
             (int)enemy->x, (int)enemy->y, (int)enemy->shield_size))
         {

@@ -17,11 +17,11 @@ inline float dist(int x1, int y1, int x2, int y2)
 }
 
 // collisions
-bool collision_sphere_sphere(   
+bool collision_sphere_circle(   
     int x1, int y1, int r1,
     int x2, int y2, int r2);
 
-bool collision_point_sphere(
+bool collision_point_circle(
     int x1, int y1,
     int x2, int y2, int r2);
 
@@ -30,7 +30,7 @@ bool collision_point_line(
     int px, int py,
     int x1, int y1, int x2, int y2);
 
-bool collision_line_sphere(
+bool collision_line_circle(
     int x1, int y1, int x2, int y2,
     int sx, int sy, int r);
 
