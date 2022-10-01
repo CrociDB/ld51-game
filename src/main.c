@@ -19,7 +19,7 @@ void start()
     game.psystems = particle_system_create();
     game.player = player_create(&game);
     game.screen = screen_create();
-    game.enemy = enemy_create();
+    game.enemy = enemy_create(&game);
 }
 
 void update() 

@@ -5,6 +5,8 @@ typedef struct
 {
     int shake_time;
     int shake_strength;
+
+    unsigned int game_frame;
 } screen_t;
 
 screen_t* screen_create();

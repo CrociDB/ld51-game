@@ -21,6 +21,7 @@ void screen_destroy(screen_t* screen)
 void screen_update(screen_t* screen)
 {
     screen->shake_time--;
+    screen->game_frame++;
 }
 
 void screen_render(screen_t* screen)

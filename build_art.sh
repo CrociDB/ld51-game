@@ -1,0 +1,1 @@
+w4 png2src --c art-src/sprite_enemy.png > src/art.h
