@@ -4,34 +4,29 @@
 #include "defs.h"
 
 // distance stuff
-float dist_sqf(float x1, float y1, float x2, float y2);
+float dist_sq(float x1, float y1, float x2, float y2);
 
-inline float dist_sq(int x1, int y1, int x2, int y2)
+inline float dist(float x1, float y1, float x2, float y2)
 {
-    return dist_sqf((float)x1, (float)y1, (float)x2, (float)y2);
-}
-
-inline float dist(int x1, int y1, int x2, int y2)
-{
-    return sqrtf(dist_sqf((float)x1, (float)y1, (float)x2, (float)y2));
+    return sqrtf(dist_sq(x1, y1, x2, y2));
 }
 
 // collisions
 bool collision_sphere_circle(   
-    int x1, int y1, int r1,
-    int x2, int y2, int r2);
+    float x1, float y1, float r1,
+    float x2, float y2, float r2);
 
 bool collision_point_circle(
-    int x1, int y1,
-    int x2, int y2, int r2);
+    float x1, float y1,
+    float x2, float y2, float r2);
 
 
 bool collision_point_line(
-    int px, int py,
-    int x1, int y1, int x2, int y2);
+    float px, float py,
+    float x1, float y1, float x2, float y2);
 
 bool collision_line_circle(
-    int x1, int y1, int x2, int y2,
-    int sx, int sy, int r);
+    float x1, float y1, float x2, float y2,
+    float sx, float sy, float r);
 
 #endif
