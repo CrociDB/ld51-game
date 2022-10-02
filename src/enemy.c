@@ -32,6 +32,8 @@ enemy_t* enemy_create(game_t* game)
     open = 5.0f - (open > 4.0f ? 4.0f : open) + frandom() * 2.0f;
     enemy->shield_sections_op = (int)open;
 
+    enemy->missiles = missile_create_system(game);
+
     enemy->sections = (shield_section_t*)malloc(sizeof(shield_section_t) * ENEMY_MAX_SECTIONS);
 
     return enemy;
@@ -39,6 +41,7 @@ enemy_t* enemy_create(game_t* game)
 
 void enemy_destroy(enemy_t* enemy)
 {
+    missile_destroy_system(enemy->missiles);
     free(enemy->sections);
     free(enemy);
 }
@@ -47,6 +50,13 @@ void enemy_update(enemy_t* enemy)
 {
     if (((enemy->game->screen->game_frame) % ENEMY_SPEED) == 0)
         enemy->frame = (enemy->frame + 1) % 2;
+
+    // shoot!    
+    if (((enemy->game->screen->game_frame) % 60) == 0)
+    {
+        float angle = frandom() * TWO_PI;
+        missile_spawn(enemy->missiles, enemy->x, enemy->y, angle);
+    }
 
     
     if (--enemy->time_left <= 0)
@@ -61,6 +71,9 @@ void enemy_update(enemy_t* enemy)
     enemy->shield_size = 12.0f + (sinf((float)(enemy->game->screen->game_frame) * enemy->shield_speed) * .5f + .5f) * enemy->shield_max_size; 
 
     enemy->shield_angle += enemy->shield_angle_speed;
+
+    // update missiles
+    missile_update(enemy->missiles);
 
     // update sections
     _enemy_update_sections(enemy);
@@ -99,6 +112,8 @@ void enemy_render(enemy_t* enemy)
             (int)enemy->sections[ni].y);
     }
 
+    // render missiles
+    missile_render(enemy->missiles);
 
     *DRAW_COLORS = 2;
     rect(5, 135, (unsigned int)((float)enemy->life / (float)enemy->initial_life * 150.0f), 9);

@@ -2,6 +2,7 @@
 #define _ENEMY_H_
 
 #include "defs.h"
+#include "missile.h"
 
 #define ENEMY_SIZE                  16
 #define ENEMY_SPEED                 20
@@ -27,6 +28,8 @@ typedef struct
 
     // for animation
     int frame;
+
+    missile_t* missiles;
 
     float shield_speed;
     float shield_max_size;
