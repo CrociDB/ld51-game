@@ -16,13 +16,9 @@ void game_render();
 
 void start()
 {
-    PALETTE[0] = 0xfff6d3;
-    PALETTE[1] = 0xf9a875;
-    PALETTE[2] = 0xeb6b6f;
-    PALETTE[3] = 0x7c3f58;
-
     game.psystems = particle_system_create();
     game.screen = screen_create();
+    screen_set_palette_random(game.screen);
 }
 
 void update() 
@@ -137,12 +133,14 @@ void state_finish(game_t* game)
     {
         case STATE_MENU:
             game->game_level = 1;
+            screen_set_palette(game->screen, 1);
             break;
         case STATE_GAME:
             player_destroy(game->player);
             enemy_destroy(game->enemy);
             break;
         case STATE_NEXT_LEVEL:
+            screen_set_palette_game_next(game->screen);
             break;
         case STATE_GAME_OVER:
             break;
@@ -154,6 +152,7 @@ void state_start(game_t* game)
     switch(game->state)
     {
         case STATE_MENU:
+            screen_set_palette_random(game->screen);
             break;
         case STATE_GAME:
             game->player = player_create(game);
@@ -166,6 +165,7 @@ void state_start(game_t* game)
             break;
         }
         case STATE_GAME_OVER:
+            screen_set_palette(game->screen, 3);
             break;
     }
 }
