@@ -117,10 +117,32 @@ void _enemy_collision_player(enemy_t* enemy)
             enemy->game->player->x, enemy->game->player->y, psize);
     
     // shield
-    collide = collide || (collision_circle_circle(enemy->x, enemy->y, enemy->shield_size,
+    bool precol = (collision_circle_circle(enemy->x, enemy->y, enemy->shield_size,
                 enemy->game->player->x, enemy->game->player->y, psize) && 
             !collision_circle_circle(enemy->x, enemy->y, enemy->shield_size - 3,
                 enemy->game->player->x, enemy->game->player->y, psize));
+    if (precol)
+    {
+        // inside she shield area, collide now with every section
+        int sections = ENEMY_MAX_SECTIONS;
+        float section_arc = TWO_PI  / (float)sections;
+        for (int j = 0; j < ENEMY_MAX_SECTIONS; j++)
+        {
+            if (!enemy->sections[j].active) continue;
+
+            int nj = (j + 1) % ENEMY_MAX_SECTIONS;
+            bool collide_circle_line = collision_line_circle(
+                enemy->sections[j].x, enemy->sections[j].y,
+                enemy->sections[nj].x, enemy->sections[nj].y,
+                enemy->game->player->x, enemy->game->player->y, psize);
+            
+            if (collide_circle_line)
+            {
+                collide = collide || TRUE;
+                break;
+            }
+        }
+    }
 
     if (collide)
     {
@@ -151,12 +173,12 @@ void _enemy_collision_bullets(enemy_t* enemy)
                 if (!enemy->sections[j].active) continue;
 
                 int nj = (j + 1) % ENEMY_MAX_SECTIONS;
-                bool collide_cirtcle_line = collision_line_circle(
+                bool collide_circle_line = collision_line_circle(
                     enemy->sections[j].x, enemy->sections[j].y,
                     enemy->sections[nj].x, enemy->sections[nj].y,
                     bullets[i].x, bullets[i].y, 3);
                 
-                if (collide_cirtcle_line)
+                if (collide_circle_line)
                 {
                     _bullet_destroy(&bullets[i]);
                     break;
