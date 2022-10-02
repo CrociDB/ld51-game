@@ -19,7 +19,7 @@ enemy_t* enemy_create(game_t* game)
     enemy->life = 2 + game->game_level * 2;
     
     enemy->shield_angle = PI_2;
-    enemy->shield_sections_sh = 1;
+    enemy->shield_sections_sh = 6;
     enemy->shield_sections_op = 4;
 
     enemy->sections = (shield_section_t*)malloc(sizeof(shield_section_t) * ENEMY_MAX_SECTIONS);
@@ -135,7 +135,25 @@ void _enemy_collision_bullets(enemy_t* enemy)
             !collision_point_circle(bullets[i].x, bullets[i].y, 
                 enemy->x, enemy->y, enemy->shield_size - 3))
         {
-            _bullet_destroy(&bullets[i]);
+            // inside she shield area, collide now with every section
+            int sections = ENEMY_MAX_SECTIONS;
+            float section_arc = TWO_PI  / (float)sections;
+            for (int j = 0; j < ENEMY_MAX_SECTIONS; j++)
+            {
+                if (!enemy->sections[j].active) continue;
+
+                int nj = (j + 1) % ENEMY_MAX_SECTIONS;
+                bool collide_cirtcle_line = collision_line_circle(
+                    enemy->sections[j].x, enemy->sections[j].y,
+                    enemy->sections[nj].x, enemy->sections[nj].y,
+                    bullets[i].x, bullets[i].y, 3);
+                
+                if (collide_cirtcle_line)
+                {
+                    _bullet_destroy(&bullets[i]);
+                    break;
+                }
+            }
         }
 
         // hit core
