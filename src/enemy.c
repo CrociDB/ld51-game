@@ -22,16 +22,20 @@ enemy_t* enemy_create(game_t* game)
     enemy->life = enemy->initial_life = 2 + game->game_level * 2;
     enemy->time_left = 600;
     
-    enemy->shield_speed = .01f + (float)game->game_level * .001f;
-    enemy->shield_angle_speed = .01f + (float)game->game_level * .002f;
+    enemy->shield_speed = .01f + (float)game->game_level * .001f + frandom() * .02f;
+    enemy->shield_angle_speed = .01f + (float)game->game_level * .002f + frandom() * .02f;
     enemy->shield_angle_speed *= (frandom() < .5f ? -1 : 1);
     
-    enemy->shield_max_size = 30.0f + (float)game->game_level * 1.2f;
+    enemy->shield_max_size = 23.0f + (float)game->game_level * 1.2f + frandom() * 6.0f;
+    enemy->shield_min_size = 11.0f + frandom() * 20.0f;
 
     enemy->shield_sections_sh = 2 + (int)((float)game->game_level * .3f);
+    if (frandom() < .2f) enemy->shield_sections_sh += 3;
+
     float open = (float)game->game_level * .1f;
     open = 5.0f - (open > 4.0f ? 4.0f : open) + frandom() * 2.0f;
     enemy->shield_sections_op = (int)open;
+    if (frandom() < .1f) enemy->shield_sections_op -= 1;
 
     enemy->missiles = missile_create_system(game);
 
@@ -76,7 +80,7 @@ void enemy_update(enemy_t* enemy)
         return;
     }
 
-    enemy->shield_size = 12.0f + (sinf((float)(enemy->game->screen->game_frame) * enemy->shield_speed) * .5f + .5f) * enemy->shield_max_size; 
+    enemy->shield_size = enemy->shield_min_size + (sinf((float)(enemy->game->screen->game_frame) * enemy->shield_speed) * .5f + .5f) * enemy->shield_max_size; 
 
     enemy->shield_angle += enemy->shield_angle_speed;
 

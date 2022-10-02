@@ -34,6 +34,7 @@ typedef struct
 
     float shield_speed;
     float shield_max_size;
+    float shield_min_size;
     float shield_size;
     float shield_angle;
     float shield_angle_speed;
