@@ -2,6 +2,7 @@
 
 #include "game.h"
 #include "utils.h"
+#include "artmenu.h"
 
 #include <stdlib.h>
 #include <string.h>
@@ -73,8 +74,18 @@ void update_render()
     switch(game.state)
     {
         case STATE_MENU:
-            text("GAME LD51 - Main Menu", 10, 10);
+        {
+            *DRAW_COLORS = 0x3142;
+            blit(
+                spacelord, 
+                10, 10, 
+                spacelordWidth, spacelordHeight, 
+                spacelordFlags);
+                
+            *DRAW_COLORS = 3;
+            text("Press \x80 to play", 21, 120);
             break;
+        }
         case STATE_GAME:
             game_render();
             break;
@@ -82,11 +93,23 @@ void update_render()
             break;
         case STATE_GAME_OVER:
         {
-            text("Game Over", 10, 10);
-            text("You made it to level:", 10, 20);
+            *DRAW_COLORS = 0x3142;
+            blit(
+                spacelord, 
+                19, 65, 
+                spacelordWidth, spacelordHeight, 
+                spacelordFlags);
+
+            
+            *DRAW_COLORS = 4;
+            text("Game Over", 49, 10);
+
+            
+            *DRAW_COLORS = 3;
+            text("Level:", 10, 40);
             char buffer[64];
             itoa(buffer, game.game_level);
-            text(buffer, 10, 30);
+            text(buffer, 60, 40);
             break;
         }
     }
@@ -103,7 +126,7 @@ void game_render()
     // game hud
     char level[64];
     itoa(level, game.game_level);
-    text(level, 10, 10);
+    text(level, 4, 4);
 }
 
 // state related stuff
