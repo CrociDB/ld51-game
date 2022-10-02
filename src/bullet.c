@@ -73,6 +73,6 @@ void bullet_spawn(bullet_t* bullets, float x, float y, float angle)
 void _bullet_destroy(bullet_t* bullets)
 {
     bullets->active = FALSE;
+    screen_shake(bullets->game->screen, 5, 2);
     particle_spawn(bullets->game->psystems, bullets->x, bullets->y);
-    screen_shake(bullets->game->screen, 10, 2);
 }
