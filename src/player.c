@@ -64,30 +64,22 @@ void player_move(player_t* player)
     player->y += dy;
 
     // screen collisions
-    if (player->x > SCREEN_SIZE - 1)
+    if (player->x > SCREEN_SIZE + 6)
     {
-        player->x = SCREEN_SIZE - 1;
-        player->angle += PI;
-        player->speed *= .3f;
+        player->x = -5.0f;
     }
-    if (player->x < 0)
+    if (player->x < -6.0f)
     {
-        player->x = 0;
-        player->angle -= PI;
-        player->speed *= .3f;
+        player->x = (float)SCREEN_SIZE + 5.0f;
     }
 
-    if (player->y > SCREEN_SIZE - 1)
+    if (player->y > SCREEN_SIZE + 6)
     {
-        player->y = SCREEN_SIZE - 1;
-        player->angle += PI;
-        player->speed *= .3f;
+        player->y = -5.0f;
     }
-    if (player->y < 0)
+    if (player->y < -6.0f)
     {
-        player->y = 0;
-        player->angle -= PI;
-        player->speed *= .3f;
+        player->y = (float)SCREEN_SIZE + 5.0f;
     }
 
     bullet_update(player->bullets);
