@@ -23,6 +23,7 @@ typedef struct
     float x;
     float y;
 
+    bool alive;
     int initial_life;
     int life;
 

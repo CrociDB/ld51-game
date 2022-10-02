@@ -3,6 +3,8 @@
 
 #include "defs.h"
 
+#define fclamp(X, XMIN, XMAX)           (X > XMAX ? XMAX : (X < XMIN ? XMIN : X))
+
 static char *itoa_simple_helper(char *dest, int i) 
 {
     if (i <= -10) 
@@ -15,6 +17,10 @@ static char *itoa_simple_helper(char *dest, int i)
 
 char *itoa(char *dest, int i);
 
+float lerp(float a, float b, float t);
+
+// angle stuff
+float angle_points(float x1, float y1, float x2, float y2);
 
 // distance stuff
 float dist_sq(float x1, float y1, float x2, float y2);

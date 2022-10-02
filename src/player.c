@@ -1,10 +1,9 @@
 #include "player.h"
 #include "defs.h"
+#include "utils.h"
 #include "bullet.h"
 
 #include <math.h>
-
-#define clamp(X, XMIN, XMAX)           (X > XMAX ? XMAX : (X < XMIN ? XMIN : X))
 
 player_t* player_create(game_t* game)
 {
@@ -55,7 +54,7 @@ void player_move(player_t* player)
 
     player->speed *= .95f;
     
-    float max_speed = clamp(player->speed, -3.0f, 3.0f);
+    float max_speed = fclamp(player->speed, -3.0f, 3.0f);
 
     float dx = sinf(player->angle) * max_speed;
     float dy = cosf(player->angle) * max_speed;

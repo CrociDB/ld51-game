@@ -16,6 +16,7 @@ enemy_t* enemy_create(game_t* game)
     enemy->game = game;
     enemy->x = SCREEN_SIZE / 2;
     enemy->y = enemy->x - 10;
+    enemy->alive = TRUE;
 
     enemy->shield_size = 10;
     enemy->life = enemy->initial_life = 2 + game->game_level * 2;
@@ -48,13 +49,17 @@ void enemy_destroy(enemy_t* enemy)
 
 void enemy_update(enemy_t* enemy)
 {
+    if (!enemy->alive) return;
+
     if (((enemy->game->screen->game_frame) % ENEMY_SPEED) == 0)
         enemy->frame = (enemy->frame + 1) % 2;
 
     // shoot!    
-    if (((enemy->game->screen->game_frame) % 60) == 0)
+    unsigned int tshoot = 530 - (unsigned int)fclamp(enemy->game->game_level * 100, 0, 450);
+    if (((enemy->game->screen->game_frame) % tshoot) == 0)
     {
         float angle = frandom() * TWO_PI;
+        //float angle = angle_points(enemy->x, enemy->y, enemy->game->player->x, enemy->game->player->y);
         missile_spawn(enemy->missiles, enemy->x, enemy->y, angle);
     }
 
@@ -142,6 +147,9 @@ void _enemy_update_sections(enemy_t* enemy)
 
 void _enemy_collision_player(enemy_t* enemy)
 {
+    // this is important because if it dies, it will free the data and access random
+    if (!enemy->alive) return; 
+
     bullet_t* bullets = enemy->game->player->bullets;
 
     bool collide = FALSE;
@@ -177,6 +185,19 @@ void _enemy_collision_player(enemy_t* enemy)
                 collide = collide || TRUE;
                 break;
             }
+        }
+    }
+
+    // missiles
+    for (int i = 0; i < MISSILES_MAX; i++)
+    {
+        if (!enemy->missiles[i].active) continue;
+
+        if (collision_circle_circle(enemy->missiles[i].x, enemy->missiles[i].y, 4.0f,
+                enemy->game->player->x, enemy->game->player->y, psize))
+        {
+            collide = TRUE;
+            break;
         }
     }
 
@@ -237,6 +258,7 @@ void _enemy_take_hit(enemy_t* enemy)
     enemy->time_left = 600;
     if (--enemy->life <= 0)
     {
+        enemy->alive = FALSE;
         game_change_state(enemy->game, STATE_NEXT_LEVEL);
     }
 }

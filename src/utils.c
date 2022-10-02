@@ -18,6 +18,17 @@ char *itoa(char *dest, int i)
     return dest;
 }
 
+float lerp(float a, float b, float t)
+{
+    return a + (b - a) * t;
+}
+
+// angle stuff
+float angle_points(float x1, float y1, float x2, float y2)
+{
+    return atan2f(y2 - y1, x2 - x1);
+}
+
 // distance stuff
 float dist_sq(float x1, float y1, float x2, float y2)
 {
