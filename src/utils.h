@@ -25,7 +25,7 @@ inline float dist(float x1, float y1, float x2, float y2)
 }
 
 // collisions
-bool collision_sphere_circle(   
+bool collision_circle_circle(   
     float x1, float y1, float r1,
     float x2, float y2, float r2);
 
