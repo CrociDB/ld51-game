@@ -3,12 +3,24 @@
 #include "utils.h"
 #include "bullet.h"
 
+const int start_pos[] = {
+    25, 25,
+    25, 125,
+    135, 25,
+    135, 125
+};
+
 #include <math.h>
 
 player_t* player_create(game_t* game)
 {
     player_t* p = (player_t*)malloc(sizeof(player_t));
-    p->x = p->y = 30;
+
+    int pos = (int)(frandom() * (sizeof(start_pos) / sizeof(int) / 2));
+    p->x = (float)start_pos[pos * 2];
+    p->y = (float)start_pos[pos * 2 + 1];
+
+    p->angle = angle_points(SCREEN_SIZE / 2, SCREEN_SIZE / 2, p->x, p->y);
 
     p->bullets = bullet_create_system(game);
 
