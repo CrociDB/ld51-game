@@ -11,6 +11,7 @@ typedef enum
 {
     STATE_MENU = 0,
     STATE_GAME,
+    STATE_NEXT_LEVEL
 } game_state_e;
 
 struct game_t

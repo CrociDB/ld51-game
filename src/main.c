@@ -37,13 +37,23 @@ void update_logic()
         case STATE_MENU:
         {
             uint8_t gamepad = *GAMEPAD1;
-            if (gamepad & BUTTON_1) game_change_state(&game, STATE_GAME);
+            if (gamepad & BUTTON_1 && game.screen->game_frame > 30) game_change_state(&game, STATE_GAME);
             break;
         }
         case STATE_GAME:
-            player_move(game.player);
+            if (game.screen->game_frame > 30) player_move(game.player);
             enemy_update(game.enemy);
             break;
+        case STATE_NEXT_LEVEL:
+        {
+            if (game.screen->game_frame > 60)
+            {
+                game.game_level++;
+                game_change_state(&game, STATE_GAME);
+            }
+            break;
+        }
+
     }
 
     particle_update(game.psystems);
@@ -60,6 +70,8 @@ void update_render()
         case STATE_GAME:
             game_render();
             break;
+        case STATE_NEXT_LEVEL:
+            break;
     }
 
     particle_render(game.psystems);
@@ -72,7 +84,7 @@ void game_render()
     player_render(game.player);
 
     // game hud
-    char level[64] = "Level: ";
+    char level[64];
     itoa(level, game.game_level);
     text(level, 10, 10);
 }
@@ -89,6 +101,8 @@ void state_finish(game_t* game)
             player_destroy(game->player);
             enemy_destroy(game->enemy);
             break;
+        case STATE_NEXT_LEVEL:
+            break;
     }
 }
 
@@ -103,6 +117,12 @@ void state_start(game_t* game)
             game->player = player_create(game);
             game->enemy = enemy_create(game);
             break;
+        case STATE_NEXT_LEVEL:
+        {
+            for (int i = 0; i < 5; i++)
+                particle_spawn(game->psystems, SCREEN_SIZE / 2, SCREEN_SIZE / 2);
+            break;
+        }
     }
 }
 
@@ -111,6 +131,8 @@ void game_change_state(game_t* game, game_state_e state)
     state_finish(game);
     game->state = state;
     state_start(game);
+
+    game->screen->game_frame = 0;
 }
 
 

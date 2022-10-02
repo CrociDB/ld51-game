@@ -13,6 +13,9 @@ typedef struct
     float x;
     float y;
 
+    int life;
+
+    // for animation
     int frame;
 
     float shield_size;
@@ -27,5 +30,6 @@ void enemy_update(enemy_t* enemy);
 void enemy_render(enemy_t* enemy);
 
 void _enemy_collision_bullets(enemy_t* enemy);
+void _enemy_take_hit(enemy_t* enemy);
 
 #endif

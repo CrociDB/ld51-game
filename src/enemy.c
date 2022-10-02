@@ -16,6 +16,7 @@ enemy_t* enemy_create(game_t* game)
     enemy->game = game;
     enemy->x = enemy->y = SCREEN_SIZE / 2;
     enemy->shield_size = 10;
+    enemy->life = 2 + game->game_level * 2;
 
     return enemy;
 }
@@ -90,8 +91,15 @@ void _enemy_collision_bullets(enemy_t* enemy)
                 enemy->x, enemy->y, (float)ENEMY_SIZE / 1.414f))
         {
             _bullet_destroy(&bullets[i]);
+            _enemy_take_hit(enemy);
         }
     }
+}
 
-
+void _enemy_take_hit(enemy_t* enemy)
+{
+    if (--enemy->life <= 0)
+    {
+        game_change_state(enemy->game, STATE_NEXT_LEVEL);
+    }
 }
