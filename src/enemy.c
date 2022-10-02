@@ -22,8 +22,8 @@ enemy_t* enemy_create(game_t* game)
     enemy->life = enemy->initial_life = 2 + game->game_level * 2;
     enemy->time_left = 600;
     
-    enemy->shield_speed = .01f + (float)game->game_level * .001f + frandom() * .02f;
-    enemy->shield_angle_speed = .01f + (float)game->game_level * .002f + frandom() * .02f;
+    enemy->shield_speed = .001f + (float)game->game_level * .001f + frandom() * .02f;
+    enemy->shield_angle_speed = .001f + (float)game->game_level * .002f + frandom() * .02f;
     enemy->shield_angle_speed *= (frandom() < .5f ? -1 : 1);
     
     enemy->shield_max_size = 23.0f + (float)game->game_level * 1.2f + frandom() * 6.0f;
