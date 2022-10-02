@@ -57,6 +57,7 @@ void missile_render(missile_t* missiles)
         int dy = (int)(sinf(missiles[i].angle + PI) * 6.0f + missiles[i].y);
 
         line((int)missiles[i].x, (int)missiles[i].y, dx, dy);
+        oval((int)missiles[i].x - 2, (int)missiles[i].y - 2, 4, 4);
     }
 }
 
