@@ -14,9 +14,11 @@ enemy_t* enemy_create(game_t* game)
 {
     enemy_t* enemy = (enemy_t*)malloc(sizeof(enemy_t));
     enemy->game = game;
-    enemy->x = enemy->y = SCREEN_SIZE / 2;
+    enemy->x = SCREEN_SIZE / 2;
+    enemy->y = enemy->x - 10;
+
     enemy->shield_size = 10;
-    enemy->life = 2 + game->game_level * 2;
+    enemy->life = enemy->initial_life = 2 + game->game_level * 2;
     enemy->time_left = 600;
     
     enemy->shield_speed = .01f + (float)game->game_level * .001f;
@@ -99,8 +101,11 @@ void enemy_render(enemy_t* enemy)
 
 
     *DRAW_COLORS = 2;
-    rect(5, 150, (unsigned int)((float)enemy->time_left / 600.0f * 150.0f), 5);
-    rect(5, 150, (unsigned int)((float)enemy->time_left / 600.0f * 150.0f), 5);
+    rect(5, 135, (unsigned int)((float)enemy->life / (float)enemy->initial_life * 150.0f), 9);
+    rect(5, 145, (unsigned int)((float)enemy->time_left / 600.0f * 150.0f), 9);
+    *DRAW_COLORS = 1;
+    text("core life", 6, 136);  
+    text("time left", 6, 146);
 }
 
 void _enemy_update_sections(enemy_t* enemy)

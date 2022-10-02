@@ -22,6 +22,7 @@ typedef struct
     float x;
     float y;
 
+    int initial_life;
     int life;
 
     // for animation
