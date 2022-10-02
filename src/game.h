@@ -7,12 +7,22 @@
 #include "screen.h"
 #include "enemy.h"
 
+typedef enum 
+{
+    STATE_MENU = 0,
+    STATE_GAME,
+} game_state_e;
+
 struct game_t
 {
     player_t* player;
     particle_system_t* psystems;
     screen_t* screen;
     enemy_t* enemy;
+
+    game_state_e state;
 };
+
+void game_change_state(game_t* game, game_state_e state);
 
 #endif
