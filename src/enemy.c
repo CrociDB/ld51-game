@@ -17,6 +17,7 @@ enemy_t* enemy_create(game_t* game)
     enemy->x = enemy->y = SCREEN_SIZE / 2;
     enemy->shield_size = 10;
     enemy->life = 2 + game->game_level * 2;
+    enemy->time_left = 600;
     
     enemy->shield_speed = .01f + (float)game->game_level * .001f;
     enemy->shield_angle_speed = .01f + (float)game->game_level * .002f;
@@ -44,6 +45,16 @@ void enemy_update(enemy_t* enemy)
 {
     if (((enemy->game->screen->game_frame) % ENEMY_SPEED) == 0)
         enemy->frame = (enemy->frame + 1) % 2;
+
+    
+    if (--enemy->time_left <= 0)
+    {
+        if (enemy->game->game_level > 1)
+            game_change_state(enemy->game, STATE_PREVIOUS_LEVEL);
+        else
+            game_change_state(enemy->game, STATE_GAME_OVER);
+        return;
+    }
 
     enemy->shield_size = 12.0f + (sinf((float)(enemy->game->screen->game_frame) * enemy->shield_speed) * .5f + .5f) * enemy->shield_max_size; 
 
@@ -85,6 +96,11 @@ void enemy_render(enemy_t* enemy)
             (int)enemy->sections[ni].x, 
             (int)enemy->sections[ni].y);
     }
+
+
+    *DRAW_COLORS = 2;
+    rect(5, 150, (unsigned int)((float)enemy->time_left / 600.0f * 150.0f), 5);
+    rect(5, 150, (unsigned int)((float)enemy->time_left / 600.0f * 150.0f), 5);
 }
 
 void _enemy_update_sections(enemy_t* enemy)
@@ -198,6 +214,7 @@ void _enemy_collision_bullets(enemy_t* enemy)
 
 void _enemy_take_hit(enemy_t* enemy)
 {
+    enemy->time_left = 600;
     if (--enemy->life <= 0)
     {
         game_change_state(enemy->game, STATE_NEXT_LEVEL);

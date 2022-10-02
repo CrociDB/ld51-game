@@ -50,6 +50,15 @@ void update_logic()
             }
             break;
         }
+        case STATE_PREVIOUS_LEVEL:
+        {
+            if (game.screen->game_frame > 60)
+            {
+                game.game_level--;
+                game_change_state(&game, STATE_GAME);
+            }
+            break;
+        }
         case STATE_GAME_OVER:
         {
             if (game.screen->game_frame > 30)
@@ -87,6 +96,8 @@ void update_render()
             break;
         case STATE_NEXT_LEVEL:
             break;
+        case STATE_PREVIOUS_LEVEL:
+            break;
         case STATE_GAME_OVER:
         {
             *DRAW_COLORS = 0x3142;
@@ -95,11 +106,9 @@ void update_render()
                 19, 65, 
                 spacelordWidth, spacelordHeight, 
                 spacelordFlags);
-
             
             *DRAW_COLORS = 4;
             text("Game Over", 49, 10);
-
             
             *DRAW_COLORS = 3;
             text("Level:", 10, 40);
@@ -122,7 +131,7 @@ void game_render()
     // game hud
     char level[64];
     itoa(level, game.game_level);
-    text(level, 4, 4);
+    text(level, 5, 5);
 }
 
 // state related stuff
@@ -140,6 +149,7 @@ void state_finish(game_t* game)
             enemy_destroy(game->enemy);
             break;
         case STATE_NEXT_LEVEL:
+        case STATE_PREVIOUS_LEVEL:
             screen_set_palette_game_next(game->screen);
             break;
         case STATE_GAME_OVER:
@@ -164,6 +174,8 @@ void state_start(game_t* game)
                 particle_spawn(game->psystems, SCREEN_SIZE / 2, SCREEN_SIZE / 2);
             break;
         }
+        case STATE_PREVIOUS_LEVEL:
+            break;
         case STATE_GAME_OVER:
             screen_set_palette(game->screen, 3);
             break;

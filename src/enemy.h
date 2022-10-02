@@ -36,6 +36,8 @@ typedef struct
     int shield_sections_op;
     shield_section_t* sections;
 
+    int time_left;
+
     game_t* game;
 } enemy_t;
 

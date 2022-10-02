@@ -12,6 +12,7 @@ typedef enum
     STATE_MENU = 0,
     STATE_GAME,
     STATE_NEXT_LEVEL,
+    STATE_PREVIOUS_LEVEL,
     STATE_GAME_OVER
 } game_state_e;
 
