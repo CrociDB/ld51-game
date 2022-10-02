@@ -6,7 +6,16 @@
 #define ENEMY_SIZE                  16
 #define ENEMY_SPEED                 20
 
+#define ENEMY_MAX_SECTIONS          50
+
 typedef struct game_t game_t;
+
+typedef struct
+{
+    float x;
+    float y;
+    bool active;
+} shield_section_t;
 
 typedef struct 
 {
@@ -19,6 +28,10 @@ typedef struct
     int frame;
 
     float shield_size;
+    float shield_angle;
+    int shield_sections_sh;
+    int shield_sections_op;
+    shield_section_t* sections;
 
     game_t* game;
 } enemy_t;
@@ -28,6 +41,8 @@ void enemy_destroy(enemy_t* enemy);
 
 void enemy_update(enemy_t* enemy);
 void enemy_render(enemy_t* enemy);
+
+void _enemy_update_sections(enemy_t* enemy);
 
 void _enemy_collision_player(enemy_t* enemy);
 void _enemy_collision_bullets(enemy_t* enemy);

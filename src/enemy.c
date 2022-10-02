@@ -17,12 +17,19 @@ enemy_t* enemy_create(game_t* game)
     enemy->x = enemy->y = SCREEN_SIZE / 2;
     enemy->shield_size = 10;
     enemy->life = 2 + game->game_level * 2;
+    
+    enemy->shield_angle = PI_2;
+    enemy->shield_sections_sh = 1;
+    enemy->shield_sections_op = 4;
+
+    enemy->sections = (shield_section_t*)malloc(sizeof(shield_section_t) * ENEMY_MAX_SECTIONS);
 
     return enemy;
 }
 
 void enemy_destroy(enemy_t* enemy)
 {
+    free(enemy->sections);
     free(enemy);
 }
 
@@ -31,7 +38,11 @@ void enemy_update(enemy_t* enemy)
     if (((enemy->game->screen->game_frame) % ENEMY_SPEED) == 0)
         enemy->frame = (enemy->frame + 1) % 2;
 
-    enemy->shield_size = 10.0f + (sinf((float)(enemy->game->screen->game_frame) * .01f) * .5f + .5f) * 55.f; 
+    enemy->shield_size = 12.0f + (sinf((float)(enemy->game->screen->game_frame) * .01f) * .5f + .5f) * 55.f; 
+    enemy->shield_angle += .01f;
+
+    // update sections
+    _enemy_update_sections(enemy);
 
     // check collision
     _enemy_collision_bullets(enemy);
@@ -54,19 +65,34 @@ void enemy_render(enemy_t* enemy)
 
     *DRAW_COLORS = 3;
 
-    int sections = 2 + (int)(enemy->shield_size * 1.0f);
+    for (int i = 0; i < ENEMY_MAX_SECTIONS; i++)
+    {
+        if (!enemy->sections[i].active) continue;
+
+        int ni = (i + 1) % ENEMY_MAX_SECTIONS;
+
+        line(
+            (int)enemy->sections[i].x, 
+            (int)enemy->sections[i].y, 
+            (int)enemy->sections[ni].x, 
+            (int)enemy->sections[ni].y);
+    }
+}
+
+void _enemy_update_sections(enemy_t* enemy)
+{
+    int sections = ENEMY_MAX_SECTIONS;
     float section_arc = TWO_PI  / (float)sections;
-    for (int i = 0; i < sections; i++)
-     {
-        int ni = (i + 1) % sections;
+    for (int i = 0; i < ENEMY_MAX_SECTIONS; i++)
+    {
+        int opcount = i % (enemy->shield_sections_sh + enemy->shield_sections_op);
+        enemy->sections[i].active = opcount >= enemy->shield_sections_op;
 
-        int x = (int)(enemy->x + sinf(section_arc * (float)i) * enemy->shield_size);
-        int y = (int)(enemy->y + cosf(section_arc * (float)i) * enemy->shield_size);
+        float x = enemy->x + sinf(section_arc * (float)i + enemy->shield_angle) * enemy->shield_size;
+        float y = enemy->y + cosf(section_arc * (float)i + enemy->shield_angle) * enemy->shield_size;
 
-        int nx = (int)(enemy->x + sinf(section_arc * (float)ni) * enemy->shield_size);
-        int ny = (int)(enemy->y + cosf(section_arc * (float)ni) * enemy->shield_size);
-
-        line(x, y, nx, ny);
+        enemy->sections[i].x = x;
+        enemy->sections[i].y = y;
     }
 }
 
