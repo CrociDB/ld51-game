@@ -55,7 +55,7 @@ void enemy_update(enemy_t* enemy)
         enemy->frame = (enemy->frame + 1) % 2;
 
     // shoot!    
-    unsigned int tshoot = 530 - (unsigned int)fclamp(enemy->game->game_level * 100, 0, 450);
+    unsigned int tshoot = 530 - (unsigned int)fclamp(enemy->game->game_level * 80, 0, 450);
     if (((enemy->game->screen->game_frame) % tshoot) == 0)
     {
         float angle = frandom() * TWO_PI;

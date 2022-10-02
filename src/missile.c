@@ -31,9 +31,12 @@ void missile_update(missile_t* missiles)
     {
         if (!missiles[i].active) continue;
 
-        float pa = angle_points(missiles[i].x, missiles[i].y, px, py);
-        float l = lerp(missiles[i].angle, pa, 0.2f) - missiles[i].angle;
-        missiles[i].angle += fclamp(l, -.01f, .01f);
+        if (missiles[i].game->game_level > 4)
+        {
+            float pa = angle_points(missiles[i].x, missiles[i].y, px, py);
+            float l = lerp(missiles[i].angle, pa, 0.2f) - missiles[i].angle;
+            missiles[i].angle += fclamp(l, -.01f, .01f);
+        }
 
         float dx = cosf(missiles[i].angle) * missiles->speed;
         float dy = sinf(missiles[i].angle) * missiles->speed;
