@@ -18,9 +18,16 @@ enemy_t* enemy_create(game_t* game)
     enemy->shield_size = 10;
     enemy->life = 2 + game->game_level * 2;
     
-    enemy->shield_angle = PI_2;
-    enemy->shield_sections_sh = 6;
-    enemy->shield_sections_op = 4;
+    enemy->shield_speed = .01f + (float)game->game_level * .001f;
+    enemy->shield_angle_speed = .01f + (float)game->game_level * .002f;
+    enemy->shield_angle_speed *= (frandom() < .5f ? -1 : 1);
+    
+    enemy->shield_max_size = 30.0f + (float)game->game_level * 1.2f;
+
+    enemy->shield_sections_sh = 2 + (int)((float)game->game_level * .3f);
+    float open = (float)game->game_level * .1f;
+    open = 5.0f - (open > 4.0f ? 4.0f : open) + frandom() * 2.0f;
+    enemy->shield_sections_op = (int)open;
 
     enemy->sections = (shield_section_t*)malloc(sizeof(shield_section_t) * ENEMY_MAX_SECTIONS);
 
@@ -38,8 +45,9 @@ void enemy_update(enemy_t* enemy)
     if (((enemy->game->screen->game_frame) % ENEMY_SPEED) == 0)
         enemy->frame = (enemy->frame + 1) % 2;
 
-    enemy->shield_size = 12.0f + (sinf((float)(enemy->game->screen->game_frame) * .01f) * .5f + .5f) * 55.f; 
-    enemy->shield_angle += .01f;
+    enemy->shield_size = 12.0f + (sinf((float)(enemy->game->screen->game_frame) * enemy->shield_speed) * .5f + .5f) * enemy->shield_max_size; 
+
+    enemy->shield_angle += enemy->shield_angle_speed;
 
     // update sections
     _enemy_update_sections(enemy);

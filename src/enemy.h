@@ -27,8 +27,11 @@ typedef struct
     // for animation
     int frame;
 
+    float shield_speed;
+    float shield_max_size;
     float shield_size;
     float shield_angle;
+    float shield_angle_speed;
     int shield_sections_sh;
     int shield_sections_op;
     shield_section_t* sections;
