@@ -95,9 +95,20 @@ void update_render()
             game_render();
             break;
         case STATE_NEXT_LEVEL:
+        {
+            *DRAW_COLORS = 4;
+            text("NEXT!", 62, 78);
+
+            break;
+        }
             break;
         case STATE_PREVIOUS_LEVEL:
+        {
+            *DRAW_COLORS = 4;
+            text("OH NO!", 60, 78);
+
             break;
+        }
         case STATE_GAME_OVER:
         {
             *DRAW_COLORS = 0x3142;
@@ -149,8 +160,10 @@ void state_finish(game_t* game)
             enemy_destroy(game->enemy);
             break;
         case STATE_NEXT_LEVEL:
-        case STATE_PREVIOUS_LEVEL:
             screen_set_palette_game_next(game->screen);
+            break;
+        case STATE_PREVIOUS_LEVEL:
+            screen_set_palette_game_previous(game->screen);
             break;
         case STATE_GAME_OVER:
             break;

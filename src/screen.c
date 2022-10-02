@@ -123,6 +123,13 @@ void screen_set_palette_game_next(screen_t* screen)
     screen_set_palette(screen, p);
 }
 
+void screen_set_palette_game_previous(screen_t* screen)
+{
+    unsigned int p = (screen->current_palette - 1) % (sizeof(SCREEN_PALETTES) / (sizeof(int) * 4));
+    if (screen->current_palette == 0) p = (sizeof(SCREEN_PALETTES) / (sizeof(int) * 4)) - 1;
+    screen_set_palette(screen, p);
+}
+
 void screen_set_palette_random(screen_t* screen)
 {
     int p = (int)(frandom() * (sizeof(SCREEN_PALETTES) / (sizeof(int) * 4)));
