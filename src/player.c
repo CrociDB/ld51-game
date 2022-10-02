@@ -100,14 +100,18 @@ void player_render(player_t* player)
     int dx = (int)(sinf(player->angle) * 8.0f + player->x);
     int dy = (int)(cosf(player->angle) * 8.0f + player->y);
 
-    int lx = (int)(sinf(player->angle + PI_2) * 4.0f + player->x);
-    int ly = (int)(cosf(player->angle + PI_2) * 4.0f + player->y);
-    int kx = (int)(sinf(player->angle - PI_2) * 4.0f + player->x);
-    int ky = (int)(cosf(player->angle - PI_2) * 4.0f + player->y);
+    int lx = (int)(sinf(player->angle + PI_2) * 5.0f + player->x);
+    int ly = (int)(cosf(player->angle + PI_2) * 5.0f + player->y);
+    int kx = (int)(sinf(player->angle - PI_2) * 5.0f + player->x);
+    int ky = (int)(cosf(player->angle - PI_2) * 5.0f + player->y);
 
     line(dx, dy, lx, ly);
     line(dx, dy, kx, ky);
     line(lx, ly, kx, ky);
+
+    *DRAW_COLORS = 0x42;
+    oval(   (int)player->x - 3, (int)player->y - 3, 
+            6, 6);
     
     bullet_render(player->bullets);
 }

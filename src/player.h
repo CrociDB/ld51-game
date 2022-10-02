@@ -11,7 +11,7 @@
 #define PLAYER_SPEED_ROTATION               .05f
 #define PLAYER_SPEED                        .1f
 
-#define PLAYER_SIZE                         7.0f
+#define PLAYER_SIZE                         4.0f
 
 typedef struct game_t game_t;
 

@@ -76,15 +76,17 @@ void _enemy_collision_player(enemy_t* enemy)
 
     bool collide = FALSE;
 
+    float psize = PLAYER_SIZE / 1.5f;
+
     // core
-    collide = collision_sphere_circle(enemy->x, enemy->y, ENEMY_SIZE / 1.414f,
-            enemy->game->player->x, enemy->game->player->x, PLAYER_SIZE);
+    collide = collision_sphere_circle(enemy->x, enemy->y, ENEMY_SIZE / 1.6f,
+            enemy->game->player->x, enemy->game->player->y, psize);
     
     // shield
     collide = collide || (collision_sphere_circle(enemy->x, enemy->y, enemy->shield_size,
-                enemy->game->player->x, enemy->game->player->x, PLAYER_SIZE) && 
+                enemy->game->player->x, enemy->game->player->y, psize) && 
             !collision_sphere_circle(enemy->x, enemy->y, enemy->shield_size - 3,
-                enemy->game->player->x, enemy->game->player->x, PLAYER_SIZE));
+                enemy->game->player->x, enemy->game->player->y, psize));
 
     if (collide)
     {
