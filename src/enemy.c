@@ -59,7 +59,10 @@ void enemy_update(enemy_t* enemy)
     if (((enemy->game->screen->game_frame) % tshoot) == 0)
     {
         float angle = frandom() * TWO_PI;
-        //float angle = angle_points(enemy->x, enemy->y, enemy->game->player->x, enemy->game->player->y);
+
+        if (frandom() < .2f)
+            angle = angle_points(enemy->x, enemy->y, enemy->game->player->x, enemy->game->player->y);
+        
         missile_spawn(enemy->missiles, enemy->x, enemy->y, angle);
     }
 
