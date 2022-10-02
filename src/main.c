@@ -1,14 +1,17 @@
 #include "wasm4.h"
 
 #include "game.h"
+#include "utils.h"
 
 #include <stdlib.h>
+#include <string.h>
 #include <inttypes.h>
 
 void update_logic();
 void update_render();
 
 game_t game;
+void game_render();
 
 void start()
 {
@@ -55,13 +58,23 @@ void update_render()
             text("GAME LD51 - Main Menu", 10, 10);
             break;
         case STATE_GAME:
-            enemy_render(game.enemy);
-            player_render(game.player);
+            game_render();
             break;
     }
 
     particle_render(game.psystems);
     screen_render(game.screen);
+}
+
+void game_render()
+{
+    enemy_render(game.enemy);
+    player_render(game.player);
+
+    // game hud
+    char level[64] = "Level: ";
+    itoa(level, game.game_level);
+    text(level, 10, 10);
 }
 
 // state related stuff
@@ -84,6 +97,7 @@ void state_start(game_t* game)
     switch(game->state)
     {
         case STATE_MENU:
+            game->game_level = 1;
             break;
         case STATE_GAME:
             game->player = player_create(game);

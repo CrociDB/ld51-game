@@ -21,6 +21,8 @@ struct game_t
     enemy_t* enemy;
 
     game_state_e state;
+
+    int game_level;
 };
 
 void game_change_state(game_t* game, game_state_e state);

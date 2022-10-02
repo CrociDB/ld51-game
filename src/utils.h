@@ -3,6 +3,19 @@
 
 #include "defs.h"
 
+static char *itoa_simple_helper(char *dest, int i) 
+{
+    if (i <= -10) 
+    {
+        dest = itoa_simple_helper(dest, i/10);
+    }
+    *dest++ = '0' - i%10;
+    return dest;
+}
+
+char *itoa(char *dest, int i);
+
+
 // distance stuff
 float dist_sq(float x1, float y1, float x2, float y2);
 

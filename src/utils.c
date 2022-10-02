@@ -3,6 +3,21 @@
 #include <stdlib.h>
 #include <math.h>
 
+char *itoa(char *dest, int i)
+{
+    char *s = dest;
+    if (i < 0) 
+    {
+        *s++ = '-';
+    } else 
+    {
+        i = -i;
+    }
+
+    *itoa_simple_helper(s, i) = '\0';
+    return dest;
+}
+
 // distance stuff
 float dist_sq(float x1, float y1, float x2, float y2)
 {
