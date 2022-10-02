@@ -136,6 +136,7 @@ void state_finish(game_t* game)
     switch(game->state)
     {
         case STATE_MENU:
+            game->game_level = 1;
             break;
         case STATE_GAME:
             player_destroy(game->player);
@@ -153,7 +154,6 @@ void state_start(game_t* game)
     switch(game->state)
     {
         case STATE_MENU:
-            game->game_level = 1;
             break;
         case STATE_GAME:
             game->player = player_create(game);
