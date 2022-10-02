@@ -29,6 +29,7 @@ void enemy_destroy(enemy_t* enemy);
 void enemy_update(enemy_t* enemy);
 void enemy_render(enemy_t* enemy);
 
+void _enemy_collision_player(enemy_t* enemy);
 void _enemy_collision_bullets(enemy_t* enemy);
 void _enemy_take_hit(enemy_t* enemy);
 

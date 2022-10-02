@@ -32,11 +32,11 @@ void update()
 
 void update_logic()
 {
+    uint8_t gamepad = *GAMEPAD1;
     switch(game.state)
     {
         case STATE_MENU:
         {
-            uint8_t gamepad = *GAMEPAD1;
             if (gamepad & BUTTON_1 && game.screen->game_frame > 30) game_change_state(&game, STATE_GAME);
             break;
         }
@@ -53,7 +53,15 @@ void update_logic()
             }
             break;
         }
-
+        case STATE_GAME_OVER:
+        {
+            if (game.screen->game_frame > 30)
+            {
+                if (gamepad & BUTTON_1 && game.screen->game_frame > 60)
+                    game_change_state(&game, STATE_MENU);
+            }
+            break;
+        }
     }
 
     particle_update(game.psystems);
@@ -72,6 +80,15 @@ void update_render()
             break;
         case STATE_NEXT_LEVEL:
             break;
+        case STATE_GAME_OVER:
+        {
+            text("Game Over", 10, 10);
+            text("You made it to level:", 10, 20);
+            char buffer[64];
+            itoa(buffer, game.game_level);
+            text(buffer, 10, 30);
+            break;
+        }
     }
 
     particle_render(game.psystems);
@@ -103,6 +120,8 @@ void state_finish(game_t* game)
             break;
         case STATE_NEXT_LEVEL:
             break;
+        case STATE_GAME_OVER:
+            break;
     }
 }
 
@@ -123,6 +142,8 @@ void state_start(game_t* game)
                 particle_spawn(game->psystems, SCREEN_SIZE / 2, SCREEN_SIZE / 2);
             break;
         }
+        case STATE_GAME_OVER:
+            break;
     }
 }
 

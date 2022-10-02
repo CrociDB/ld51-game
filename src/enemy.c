@@ -35,6 +35,7 @@ void enemy_update(enemy_t* enemy)
 
     // check collision
     _enemy_collision_bullets(enemy);
+    _enemy_collision_player(enemy);
 }
 
 void enemy_render(enemy_t* enemy)
@@ -66,6 +67,29 @@ void enemy_render(enemy_t* enemy)
         int ny = (int)(enemy->y + cosf(section_arc * (float)ni) * enemy->shield_size);
 
         line(x, y, nx, ny);
+    }
+}
+
+void _enemy_collision_player(enemy_t* enemy)
+{
+    bullet_t* bullets = enemy->game->player->bullets;
+
+    bool collide = FALSE;
+
+    // core
+    collide = collision_sphere_circle(enemy->x, enemy->y, ENEMY_SIZE / 1.414f,
+            enemy->game->player->x, enemy->game->player->x, PLAYER_SIZE);
+    
+    // shield
+    collide = collide || (collision_sphere_circle(enemy->x, enemy->y, enemy->shield_size,
+                enemy->game->player->x, enemy->game->player->x, PLAYER_SIZE) && 
+            !collision_sphere_circle(enemy->x, enemy->y, enemy->shield_size - 3,
+                enemy->game->player->x, enemy->game->player->x, PLAYER_SIZE));
+
+    if (collide)
+    {
+        particle_spawn(enemy->game->psystems, enemy->game->player->x, enemy->game->player->x);
+        game_change_state(enemy->game, STATE_GAME_OVER);
     }
 }
 
