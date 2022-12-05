@@ -6,7 +6,7 @@
         {
             "label": "build",
             "type": "shell",
-            "command": "make && w4 run build/cart.wasm -n",
+            "command": "./build-run.sh",
             "problemMatcher": []
         }
     ]

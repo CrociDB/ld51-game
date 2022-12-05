@@ -8,8 +8,10 @@
 #include "wasm4.h"
 #include "bullet.h"
 
-#define PLAYER_SPEED_ROTATION               .05f
+#define PLAYER_SPEED_ROTATION               .13f
 #define PLAYER_SPEED                        .1f
+#define PLAYER_SPEED_MAX                    9.5f
+#define PLAYER_SHOOT_DELAY                  1.5f
 
 #define PLAYER_SIZE                         4.0f
 
@@ -23,7 +25,7 @@ typedef struct
     float angle;
     float speed;
 
-    bool input;
+    float input_delay;
 
     bullet_t* bullets;
 

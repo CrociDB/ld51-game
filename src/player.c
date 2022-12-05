@@ -41,28 +41,42 @@ void player_move(player_t* player)
 
     if (gamepad & BUTTON_1)
     {
-        if (!player->input)
+        if (player->input_delay <= 0)
         {
             float dx = sinf(player->angle) * 8.0f + player->x;
             float dy = cosf(player->angle) * 8.0f + player->y;
             bullet_spawn(player->bullets, dx, dy, player->angle);
-            player->input = TRUE;
+            player->input_delay = PLAYER_SHOOT_DELAY;
         }
-    }
-    else
-    {
-        player->input = FALSE;
+
+        player->input_delay -= 0.16f;
     }
 
     if (gamepad & BUTTON_LEFT)
-        player->angle += PLAYER_SPEED_ROTATION;
+    {
+        if (player->angle < PI_2) player->angle += TWO_PI;
+        player->angle = lerp(player->angle, PI + PI_2, PLAYER_SPEED_ROTATION);
+        if (!(gamepad & BUTTON_1)) player->speed += PLAYER_SPEED;
+    }
     if (gamepad & BUTTON_RIGHT)
-        player->angle -= PLAYER_SPEED_ROTATION;
-
-    if (gamepad & BUTTON_UP || gamepad & BUTTON_2)
-        player->speed += PLAYER_SPEED;
+    {
+        if (player->angle > PI + PI_2) player->angle -= TWO_PI;
+        player->angle = lerp(player->angle, PI_2, PLAYER_SPEED_ROTATION);
+        if (!(gamepad & BUTTON_1)) player->speed += PLAYER_SPEED;
+    }
+    if (gamepad & BUTTON_UP)
+    {
+        player->angle = lerp(player->angle, PI, PLAYER_SPEED_ROTATION);
+        if (!(gamepad & BUTTON_1)) player->speed += PLAYER_SPEED;
+    }
     if (gamepad & BUTTON_DOWN)
-        player->speed -= PLAYER_SPEED;
+    {
+        float angle = player->angle > PI ? (TWO_PI) : 0;
+        player->angle = lerp(player->angle, angle, PLAYER_SPEED_ROTATION);
+        if (!(gamepad & BUTTON_1)) player->speed += PLAYER_SPEED;
+    }
+
+    player->speed = fclamp(player->speed, 0, PLAYER_SPEED * PLAYER_SPEED_MAX);
 
     player->speed *= .95f;
     
