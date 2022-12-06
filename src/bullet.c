@@ -2,6 +2,7 @@
 #include "bullet.h"
 #include "defs.h"
 #include "particles.h"
+#include "audio.h"
 #include "wasm4.h"
 
 #include <malloc.h>
@@ -36,8 +37,16 @@ void bullet_update(bullet_t* bullets)
         bullets[i].x += dx;
         bullets[i].y += dy;
 
-        if (bullets[i].x > SCREEN_SIZE || bullets[i].x < 0) _bullet_destroy(&bullets[i]);
-        if (bullets[i].y > SCREEN_SIZE || bullets[i].y < 0) _bullet_destroy(&bullets[i]);
+        if (bullets[i].x > SCREEN_SIZE || bullets[i].x < 0) 
+        {
+            audio_play_crash();
+            _bullet_destroy(&bullets[i]);
+        }
+        if (bullets[i].y > SCREEN_SIZE || bullets[i].y < 0) 
+        {
+            audio_play_crash();
+            _bullet_destroy(&bullets[i]);
+        }
     }
 }
 

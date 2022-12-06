@@ -2,6 +2,7 @@
 #include "art.h"
 #include "game.h"
 #include "bullet.h"
+#include "audio.h"
 #include "utils.h"
 
 #include "wasm4.h"
@@ -262,6 +263,7 @@ void _enemy_collision_bullets(enemy_t* enemy)
 
 void _enemy_take_hit(enemy_t* enemy)
 {
+    audio_play_hit_enemy();
     enemy->time_left = 600;
     if (--enemy->life <= 0)
     {

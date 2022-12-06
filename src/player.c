@@ -2,6 +2,7 @@
 #include "defs.h"
 #include "utils.h"
 #include "bullet.h"
+#include "audio.h"
 
 const int start_pos[] = {
     25, 25,
@@ -46,11 +47,13 @@ void player_move(player_t* player)
             float dx = sinf(player->angle) * 8.0f + player->x;
             float dy = cosf(player->angle) * 8.0f + player->y;
             bullet_spawn(player->bullets, dx, dy, player->angle);
+            audio_play_shoot();
             player->input_delay = PLAYER_SHOOT_DELAY;
         }
 
         player->input_delay -= 0.16f;
     }
+    else player->input_delay = 0;
 
     if (gamepad & BUTTON_LEFT)
     {
